@@ -184,9 +184,10 @@ const qrcodeDom = ref<any>()
 const qrSize = ref<number>(0)
 const drawQR = async (qrValue: string, hide: boolean = false) => {
   const qrDom = document.createElement('canvas')
+  const targetSize = qrSize.value * 4  // 新增：二维码尺寸放大 4 倍
   await QrCode.toCanvas(qrDom, qrValue, {
     errorCorrectionLevel: 'H',
-    width: qrSize.value*4 ,
+    width: targetSize,  // 使用放大后的尺寸
     margin: 0,
     color: {
       dark: '#000000',
@@ -195,8 +196,8 @@ const drawQR = async (qrValue: string, hide: boolean = false) => {
   })
   if (hide) {
     const ctx: any = qrDom.getContext('2d')
-    const clearWidth = (qrSize.value / 2) * (qrHideSize.value / 100)
-    ctx.clearRect(qrSize.value / 2, qrSize.value - clearWidth, qrSize.value / 2, clearWidth)
+    const clearWidth = (targetSize / 2) * (qrHideSize.value / 100)
+    ctx.clearRect(targetSize / 2, targetSize - clearWidth, targetSize / 2, clearWidth)
   }
   return qrDom.toDataURL('image/png')
 }
