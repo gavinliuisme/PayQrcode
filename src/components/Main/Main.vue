@@ -186,7 +186,7 @@ const drawQR = async (qrValue: string, hide: boolean = false) => {
   const qrDom = document.createElement('canvas')
   await QrCode.toCanvas(qrDom, qrValue, {
     errorCorrectionLevel: 'H',
-    width: qrSize.value,
+    width: qrSize.value*4 ,
     margin: 0,
     color: {
       dark: '#000000',
@@ -203,7 +203,7 @@ const drawQR = async (qrValue: string, hide: boolean = false) => {
 
 // 下载二维码
 const downloadQrcode = async () => {
-  const canvas = await html2canvas(qrcodeDom.value, { useCORS: true })
+  const canvas = await html2canvas(qrcodeDom.value, { useCORS: true, scale: 2 })
   const dataURL = canvas.toDataURL('image/png')
   const link = document.createElement('a')
   link.href = dataURL
